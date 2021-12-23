@@ -20,7 +20,7 @@ var camRot Matrix
 func main() {
 	var scene = Scene{}
 	var cam = Camera{Vector3{5, 6, -6}}
-	var sphere = Sphere{Vector3{0, 1, 0}, 1, color.RGBA{0, 0, 255, 255}}
+	var sphere = Sphere{Vector3{0, 1, 0}, 1, 1, 2, color.RGBA{0, 0, 255, 255}}
 	var cube = Cube{Vector3{2, 0, 2}, color.RGBA{0, 255, 0, 255}, 2, 2, 5}
 	var lamp = Light{Vector3{0, 0, -3}}
 
@@ -69,12 +69,12 @@ func (c Cube) GetSurfaceColour() color.RGBA {
 
 type Sphere struct {
 	centre        Vector3
-	radius        float64
+	a, b, c       float64
 	surfaceColour color.RGBA
 }
 
 func (s Sphere) CheckIfInside(p Vector3) bool {
-	if math.Pow((p.x-s.centre.x), 2)+math.Pow((p.y-s.centre.y), 2)+math.Pow((p.z-s.centre.z), 2) < math.Pow(s.radius, 2) {
+	if math.Pow((p.x-s.centre.x)/s.a, 2)+math.Pow((p.y-s.centre.y)/s.b, 2)+math.Pow((p.z-s.centre.z)/s.c, 2) < 1 {
 		return true
 	} else {
 		return false

@@ -21,15 +21,15 @@ func main() {
 	var scene = Scene{}
 	var cam = Camera{Vector3{5, 6, -6}}
 	var sphere = Sphere{Vector3{0, 1, 0}, 1, color.RGBA{0, 0, 255, 255}}
-	var cube = Cube{Vector3{2, 0, 2}, color.RGBA{0, 255, 0, 255}, 2}
+	var cube = Cube{Vector3{2, 0, 2}, color.RGBA{0, 255, 0, 255}, 2, 2, 5}
 	var lamp = Light{Vector3{0, 0, -3}}
 
 	camRot = cam.RotateX(-math.Pi / 6)
 
 	darkFactor = 3
 	step = 0.01
-	width = 1000
-	height = 1000
+	width = 200
+	height = 200
 
 	scene.objects = append(scene.objects, cube)
 	scene.objects = append(scene.objects, sphere)
@@ -50,13 +50,13 @@ type Object interface {
 }
 
 type Cube struct {
-	position      Vector3
-	surfaceColour color.RGBA
-	sidelen       float64
+	position         Vector3
+	surfaceColour    color.RGBA
+	xLen, yLen, zLen float64
 }
 
 func (c Cube) CheckIfInside(point Vector3) bool {
-	if c.position.x < point.x && point.x < c.position.x+c.sidelen && c.position.y < point.y && point.y < c.position.y+c.sidelen && c.position.z < point.z && point.z < c.position.z+c.sidelen {
+	if c.position.x < point.x && point.x < c.position.x+c.xLen && c.position.y < point.y && point.y < c.position.y+c.yLen && c.position.z < point.z && point.z < c.position.z+c.zLen {
 		return true
 	} else {
 		return false
@@ -161,8 +161,7 @@ type Vector3 struct {
 }
 
 func (vec Vector3) Dot(vec2 Vector3) float64 {
-	var dot float64
-	dot = (vec.x * vec2.x) + (vec.y * vec2.y) + (vec.z * vec2.z)
+	var dot = (vec.x * vec2.x) + (vec.y * vec2.y) + (vec.z * vec2.z)
 	return dot
 }
 
